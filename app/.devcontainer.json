@@ -16,7 +16,8 @@
 				"eamodio.gitlens",
 				"streetsidesoftware.code-spell-checker",
 				"oderwat.indent-rainbow",
-        "dsznajder.es7-react-js-snippets"
+        "dsznajder.es7-react-js-snippets",
+				"bradlc.vscode-tailwindcss"
 			]
 		}
 	},

@@ -1,0 +1,24 @@
+{
+  "name": "spa-calendar-app",
+	"dockerComposeFile": "../docker-compose.yml",
+	"service": "app",
+	"runServices": [
+		"app"
+	],
+	"workspaceFolder": "/app",
+	"features": {
+    "ghcr.io/devcontainers/features/common-utils:2": {},
+		"ghcr.io/devcontainers/features/git:1": {}
+	},
+  "customizations": {
+		"vscode": {
+			"extensions": [
+				"eamodio.gitlens",
+				"streetsidesoftware.code-spell-checker",
+				"oderwat.indent-rainbow",
+        "dsznajder.es7-react-js-snippets"
+			]
+		}
+	},
+	"shutdownAction": "none"
+}

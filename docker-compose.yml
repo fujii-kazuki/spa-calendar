@@ -25,3 +25,14 @@ services:
         condition: service_started
     tty: true
     stdin_open: true
+
+  app:
+    build:
+      context: app
+      dockerfile: Dockerfile
+    volumes:
+      - ./app:/app
+    environment:
+      TZ: Asia/Tokyo
+    tty: true
+    stdin_open: true

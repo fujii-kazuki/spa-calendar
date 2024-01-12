@@ -11,6 +11,7 @@ Rails.application.config.middleware.insert_before 0, Rack::Cors do
 
     resource "*",
       headers: :any,
+      expose: [ 'access-token', 'client', 'expiry', 'uid', 'token-type' ],
       methods: [:get, :post, :put, :patch, :delete, :options, :head],
       credentials: true # Cookieを利用する
   end

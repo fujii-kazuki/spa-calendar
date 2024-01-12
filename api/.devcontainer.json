@@ -1,0 +1,25 @@
+{
+  "name": "spa-calendar-api",
+	"dockerComposeFile": "../docker-compose.yml",
+	"service": "api",
+	"runServices": [
+		"db",
+		"api"
+	],
+	"workspaceFolder": "/api",
+	"features": {
+    "ghcr.io/devcontainers/features/common-utils:2": {},
+		"ghcr.io/devcontainers/features/git:1": {}
+	},
+  "customizations": {
+		"vscode": {
+			"extensions": [
+				"eamodio.gitlens",
+				"streetsidesoftware.code-spell-checker",
+				"oderwat.indent-rainbow",
+				"shopify.ruby-lsp"
+			]
+		}
+	},
+	"shutdownAction": "none"
+}

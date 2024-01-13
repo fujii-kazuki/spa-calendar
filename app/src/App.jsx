@@ -1,35 +1,30 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { Link } from 'react-router-dom'
+import topImage from '/src/assets/images/top.svg';
 
-function App() {
-  const [count, setCount] = useState(0)
-
+const App = () => {
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <div className='container flex justify-center items-center gap-8 h-screen'>
+      <div className='flex-1'>
+        <h1 className='text-4xl text-center pt-12'>SPAカレンダー</h1>
+        <img src={topImage} className='object-cover' />
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
 
-export default App
+      <div className='flex-1 max-w-[600px] space-y-8'>
+        <h2 className='text-2xl'>ログイン</h2>
+        <form>
+          <div className='space-y-5'>
+            <input type="email" name="email" placeholder='メールアドレス' />
+            <input type="password" name="password" placeholder='パスワード' />
+          </div>
+          <button type="submit" className='btn mt-8 mx-auto'>ログイン</button>
+        </form>
+
+        <div className='text-right'>
+          <Link to='/signUp'>ユーザー登録はこちら</Link>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default App;

@@ -1,6 +1,6 @@
 import { Link, useNavigate } from 'react-router-dom'
 import { useState, useEffect } from 'react'
-import { SignUp, GetUser } from '/src/lib/api/auth'
+import { signUp, getUser } from '/src/lib/api/auth'
 import topImage from '/src/assets/images/top.svg'
 
 const SignUp = () => {
@@ -10,10 +10,10 @@ const SignUp = () => {
 
   const register = async (event) => {
     event.preventDefault();
-    await SignUp({ email, password })
+    await signUp({ email, password })
       .then((res) => {
         if (res?.status === 200) {
-          navigate('calendar');
+          navigate('/calendar');
         } else {
           // エラーメッセージのアラートを表示
           const errorMessages = res.data.errors.fullMessages;
@@ -29,8 +29,8 @@ const SignUp = () => {
   useEffect(() => {
     const f = async () => {
       try {
-        const res = await GetUser();
-        if (res && res.data.isLogin) {
+        const res = await getUser();
+        if (res?.data.isLogin) {
           navigate('/calendar');
         }
       } catch (e) {

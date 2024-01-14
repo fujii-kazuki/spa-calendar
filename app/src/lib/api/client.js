@@ -6,11 +6,11 @@ const options = {
   ignoreHeaders: true // HTTPヘッダーの変換を無効
 };
 
-const Client = applyCaseMiddleware(
+const client = applyCaseMiddleware(
   axios.create({
     baseURL: import.meta.env.VITE_APP_API_DOMAIN
   }),
   options
 );
 
-export default Client;
+export default client;

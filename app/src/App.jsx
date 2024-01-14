@@ -1,6 +1,6 @@
 import { Link, useNavigate } from 'react-router-dom'
 import { useState, useEffect } from 'react'
-import { SignIn, GetUser } from '/src/lib/api/auth'
+import { signIn, getUser } from '/src/lib/api/auth'
 import topImage from '/src/assets/images/top.svg'
 
 const App = () => {
@@ -10,7 +10,7 @@ const App = () => {
 
   const login = async (event) => {
     event.preventDefault();
-    await SignIn({ email, password })
+    await signIn({ email, password })
       .then((res) => {
         if (res?.status === 200) {
           navigate('/calendar');
@@ -29,8 +29,8 @@ const App = () => {
   useEffect(() => {
     const f = async () => {
       try {
-        const res = await GetUser();
-        if (res && res.data.isLogin) {
+        const res = await getUser();
+        if (res?.data.isLogin) {
           navigate('calendar');
         }
       } catch (e) {

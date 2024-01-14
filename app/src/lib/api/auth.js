@@ -1,9 +1,9 @@
 import Cookies from 'js-cookie'
-import Client from './client'
+import client from './client'
 
 // サインアップ
-export const SignUp = async (params) => {
-  return await Client.post('auth', params)
+export const signUp = async (params) => {
+  return await client.post('auth', params)
     .then((res) => {
       Cookies.set('_access_token', res.headers['access-token']);
       Cookies.set('_client', res.headers['client']);
@@ -16,8 +16,8 @@ export const SignUp = async (params) => {
 };
 
 // サインイン
-export const SignIn = async (params) => {
-  return await Client.post('auth/sign_in', params)
+export const signIn = async (params) => {
+  return await client.post('auth/sign_in', params)
     .then((res) => {
       Cookies.set('_access_token', res.headers['access-token']);
       Cookies.set('_client', res.headers['client']);
@@ -30,14 +30,14 @@ export const SignIn = async (params) => {
 };
 
 // ログイン済みのユーザーを返す
-export const GetUser = () => {
+export const getUser = () => {
   if (
     !Cookies.get('_access_token') ||
     !Cookies.get('_client') ||
     !Cookies.get('_uid')
   ) return;
 
-  return Client.get('/auth/sessions', {
+  return client.get('/auth/sessions', {
     headers: {
       'access-token': Cookies.get('_access_token'),
       'client': Cookies.get('_client'),

@@ -1,0 +1,39 @@
+@import 'src/assets/styles/components/button.scss';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  @font-face {
+    font-family: ZenKurenaido;
+    font-weight: 400;
+    src: url(/src/assets/fonts/ZenKurenaido-Regular.woff) format('woff');
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-ZenKurenaido font-extrabold;
+  }
+
+  a {
+    @apply text-blue-500;
+  }
+  
+  input[type="email"],
+  input[type="password"] {
+    display: block;
+    width: 100%;
+    padding: 0.375rem 0.75rem;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    border-bottom: 1.5px solid #aaa;
+    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+
+    &:focus {
+      border-color: #86b7fe;
+      outline: 0;
+      box-shadow: 0 8px 8px -5px rgba(13,110,253,.25);
+    }
+  }
+}

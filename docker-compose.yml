@@ -34,5 +34,6 @@ services:
       - ./app:/app
     environment:
       TZ: Asia/Tokyo
+      VITE_APP_API_DOMAIN: ${API_DOMAIN:-http://localhost:3000}
     tty: true
     stdin_open: true

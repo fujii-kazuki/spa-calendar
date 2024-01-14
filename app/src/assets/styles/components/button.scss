@@ -1,0 +1,37 @@
+@layer components {
+  .button {
+    display: block;
+    font-family: ZenKurenaido;
+    font-weight: 800;
+    text-align: center;
+    text-decoration: none;
+    position: relative;
+    padding: .75rem 3.5rem;
+    color: #27acd9;
+    background: #e1f3f9;
+    transition: 0.3s ease-in-out;
+    user-select: none;
+
+    &:hover, &:focus {
+      background: #27acd9;
+      color: #fff;
+      outline: none;
+    }
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: -3px;
+      left: -3px;
+      width: calc(100% - 1.5px);
+      height: calc(100% - 1.5px);
+      border: 1.5px solid #27acd9;
+      transition: 0.2s;
+    }
+
+    &:hover::before, &:focus::before {
+      top: 0;
+      left: 0;
+    }
+  }
+}

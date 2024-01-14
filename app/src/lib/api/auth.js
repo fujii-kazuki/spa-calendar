@@ -29,6 +29,25 @@ export const signIn = async (params) => {
     })
 };
 
+// サインアウト
+export const signOut = async () => {
+  return await client.delete('auth/sign_out', {
+      headers: {
+        'access-token': Cookies.get('_access_token'),
+        'client': Cookies.get('_client'),
+        'uid': Cookies.get('_uid'),
+      }
+    }).then((res) => {
+      Cookies.remove('_access_token');
+      Cookies.remove('_client');
+      Cookies.remove('_uid');
+      return res;
+    })
+    .catch((err) => {
+      return err.response;
+    })
+};
+
 // ログイン済みのユーザーを返す
 export const getUser = () => {
   if (

@@ -8,15 +8,14 @@ const App = () => {
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
 
-  const login = async (event) => {
-    event.preventDefault();
+  const login = async () => {
     await signIn({ email, password })
       .then((res) => {
         if (res?.status === 200) {
           navigate('/calendar');
         } else {
           // エラーメッセージのアラートを表示
-          const errorMessages = res.data.errors.fullMessages;
+          const errorMessages = res.data.errors;
           alert(errorMessages.join('\n'));
         }
       })
@@ -49,16 +48,21 @@ const App = () => {
 
       <div className='flex-1 max-w-[600px] space-y-8'>
         <h2 className='text-2xl'>ログイン</h2>
-        <form onSubmit={login}>
+        <form
+          onSubmit={(event) => {
+            event.preventDefault();
+            login();
+          }}
+        >
           <div className='space-y-5'>
-            <input type="email" name="email" placeholder='メールアドレス'
+            <input type='email' name='email' placeholder='メールアドレス'
               onChange={(event) => setEmail(event.target.value)}
             />
-            <input type="password" name="password" placeholder='パスワード'
+            <input type='password' name='password' placeholder='パスワード'
               onChange={(event) => setPassword(event.target.value)}
             />
           </div>
-          <button type="submit" className='button mt-8 mx-auto'>
+          <button type='submit' className='button mt-8 mx-auto'>
             ログイン
           </button>
         </form>

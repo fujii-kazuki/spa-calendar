@@ -33,5 +33,17 @@
       top: 0;
       left: 0;
     }
+
+    &.button-secondary {
+      @apply text-gray-500 bg-gray-200;
+
+      &:hover, &:focus {
+        @apply text-white bg-gray-500;
+      }
+
+      &::before {
+        @apply border-[1.5px] border-gray-500;
+      }
+    }
   }
 }

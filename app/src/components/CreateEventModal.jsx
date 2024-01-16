@@ -41,7 +41,7 @@ export const CreateEventModal = ({ isOpen, setIsOpen, clearEvents }) => {
     <Modal
       isOpen={isOpen}
       className='bg-white rounded-lg shadow-xl w-[600px]'
-      overlayClassName='fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-10 backdrop-blur'
+      overlayClassName='fixed top-0 left-0 w-full h-dvh flex items-center justify-center bg-black bg-opacity-10 backdrop-blur z-50'
       closeTimeoutMS={400}
     >
       <div className='flex items-center justify-between p-6 border-b'>

@@ -41,7 +41,7 @@ const SignUp = () => {
   }, [navigate]);
 
   return (
-    <div className='container flex justify-center items-center gap-8 h-screen'>
+    <div className='container flex justify-center items-center gap-8 h-dvh'>
       <div className='flex-1'>
         <h1 className='text-4xl text-center pt-12'>SPAカレンダー</h1>
         <img src={topImage} className='object-cover select-none' />

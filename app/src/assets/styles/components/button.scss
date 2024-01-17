@@ -1,6 +1,8 @@
 @layer components {
   .button {
-    display: block;
+    display: flex;
+    column-gap: .15em;
+    align-items: center;
     font-family: ZenKurenaido;
     font-weight: 800;
     text-align: center;
@@ -32,6 +34,42 @@
     &:hover::before, &:focus::before {
       top: 0;
       left: 0;
+    }
+
+    &.button-success {
+      @apply text-green-400 bg-green-100;
+
+      &:hover, &:focus {
+        @apply text-white bg-green-400;
+      }
+
+      &::before {
+        @apply border-[1.5px] border-green-400;
+      }
+    }
+
+    &.button-secondary {
+      @apply text-gray-500 bg-gray-200;
+
+      &:hover, &:focus {
+        @apply text-white bg-gray-500;
+      }
+
+      &::before {
+        @apply border-[1.5px] border-gray-500;
+      }
+    }
+
+    &.button-danger {
+      @apply text-red-400 bg-red-100;
+
+      &:hover, &:focus {
+        @apply text-white bg-red-400;
+      }
+
+      &::before {
+        @apply border-[1.5px] border-red-400;
+      }
     }
   }
 }

@@ -83,7 +83,8 @@ const Calendar = () => {
   // ログアウト機能
   const logout = async (event) => {
     event.preventDefault();
-    await signOut()
+    if (window.confirm('ログアウトします。よろしいですか？')) {
+      await signOut()
       .then((res) => {
         if (res?.data.success) {
           alert('ログアウトしました。');
@@ -97,12 +98,13 @@ const Calendar = () => {
       .catch(() => {
         alert('ログアウトに失敗しました。');
       })
+    }
   };
 
   // アカウント削除機能
   const deleteAccount = async (event) => {
     event.preventDefault();
-    if (window.confirm('アカウントを削除します。登録した予定は全て削除されてしまいますが宜しいですか？')) {
+    if (window.confirm('アカウントを削除します。登録した予定は全て削除されてしまいますが、よろしいですか？')) {
       await deleteRegister()
         .then((res) => {
           if (res?.data.status === 'success') {
@@ -179,13 +181,11 @@ const Calendar = () => {
         />
         <div className='flex items-center justify-between'>
           <div className='flex gap-5 items-center'>
-            <button onClick={deleteAccount} className='button button-danger'>
+            <button onClick={deleteAccount} className='button button-danger button-rounded'>
               <UserMinusIcon className='h-6 w-6' />
-              アカウント削除
             </button>
-            <button onClick={logout} className='button button-secondary'>
+            <button onClick={logout} className='button button-secondary button-rounded'>
               <ArrowLeftStartOnRectangleIcon className='h-6 w-6' />
-              ログアウト
             </button>
           </div>
 

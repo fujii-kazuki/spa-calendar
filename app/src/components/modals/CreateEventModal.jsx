@@ -20,7 +20,8 @@ export const CreateEventModal = ({ modal, icon, calendarEvent, updateCalendar })
       startDate: calendarEvent.startDate,
       endDate: calendarEvent.endDate,
       color: calendarEvent.color
-    }).then(() => {
+    })
+    .then(() => {
       updateCalendar().then(() => {
         modal.close();
         calendarEvent.init();

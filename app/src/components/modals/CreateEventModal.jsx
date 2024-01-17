@@ -1,5 +1,6 @@
 import { useRef } from 'react'
 import { PlusCircleIcon } from '@heroicons/react/24/outline'
+import { ColorPicker } from '/src/components/ColorPicker'
 import { ModalWindow } from '/src/components/modals/ModalWindow'
 import { createCalendarEvent } from '/src/lib/api/calendarEvent'
 
@@ -17,7 +18,8 @@ export const CreateEventModal = ({ modal, icon, calendarEvent, updateCalendar })
       title: calendarEvent.title,
       description: calendarEvent.description,
       startDate: calendarEvent.startDate,
-      endDate: calendarEvent.endDate
+      endDate: calendarEvent.endDate,
+      color: calendarEvent.color
     }).then(() => {
       updateCalendar().then(() => {
         modal.close();
@@ -37,7 +39,7 @@ export const CreateEventModal = ({ modal, icon, calendarEvent, updateCalendar })
   return (
     <ModalWindow modal={modal} icon={icon}>
       <form onSubmit={createEvent}>
-        <div className='space-y-5'>
+        <div className='space-y-6'>
           <input type='text' name='title' placeholder='タイトル' autoFocus
             onChange={(event) => calendarEvent.set({ title: event.target.value })}
           />
@@ -56,8 +58,12 @@ export const CreateEventModal = ({ modal, icon, calendarEvent, updateCalendar })
               onChange={(event) => calendarEvent.set({ endDate: event.target.value })}
             />
           </div>
+          <div className='flex gap-5 items-center'>
+            <label className='font-ZenKurenaido font-extrabold'>色</label>
+            <ColorPicker calendarEvent={calendarEvent} />
+          </div>
         </div>
-        <button type='submit' className='button button-success mt-8 ml-auto'>
+        <button type='submit' className='button button-success mt-10 ml-auto'>
           <PlusCircleIcon className='h-6 w-6' />
           追加
         </button>

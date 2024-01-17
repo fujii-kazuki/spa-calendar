@@ -16,6 +16,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_14_051239) do
     t.string "description"
     t.date "start_date"
     t.date "end_date"
+    t.integer "color", default: 0
     t.bigint "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

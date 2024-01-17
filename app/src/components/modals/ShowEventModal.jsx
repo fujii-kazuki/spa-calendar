@@ -30,7 +30,7 @@ export const ShowEventModal = ({ modal, icon, calendarEvent, editEventModal, upd
 
   return (
     <ModalWindow modal={modal} icon={icon}>
-      <div className='font-ZenKurenaido space-y-5'>
+      <div className='font-ZenKurenaido space-y-6'>
         <div>
           <h3 className='mb-1'>タイトル</h3>
           <p className='text-lg border-b-[1.5px] border-gray-400 mx-2 px-2'>
@@ -65,7 +65,7 @@ export const ShowEventModal = ({ modal, icon, calendarEvent, editEventModal, upd
           </div>
         </div>
       </div>
-      <div className='flex justify-between mt-8'>
+      <div className='flex justify-between mt-10'>
         <button type='button' className='button button-danger'
           onClick={() => {
             if (window.confirm('この予定を削除しますします。よろしいですか？')) eventDestroy();

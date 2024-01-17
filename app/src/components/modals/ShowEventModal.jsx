@@ -1,7 +1,33 @@
+import { useRef } from 'react'
 import { ModalWindow } from '/src/components/modals/ModalWindow'
-import { PencilSquareIcon } from '@heroicons/react/24/outline'
+import { PencilSquareIcon, XCircleIcon } from '@heroicons/react/24/outline'
+import { destroyCalendarEvent } from '/src/lib/api/calendarEvent'
 
-export const ShowEventModal = ({ modal, icon, calendarEvent, editEventModal }) => {
+export const ShowEventModal = ({ modal, icon, calendarEvent, editEventModal, updateCalendar }) => {
+  const isProc = useRef(false); //送信処理の管理
+
+  const eventDestroy = async () => {
+    if (isProc.current) return;
+    isProc.current = true;
+
+    await destroyCalendarEvent({
+      id: calendarEvent.id
+    }).then(() => {
+      updateCalendar().then(() => {
+        modal.close();
+        calendarEvent.init();
+      });
+    })
+    .catch((err) => {
+      // エラーメッセージのアラートを表示
+      const errorMessages = err.response.data.errors;
+      alert(errorMessages.join('\n'));
+    })
+    .finally(() => {
+      isProc.current = false;
+    });
+  };
+
   return (
     <ModalWindow modal={modal} icon={icon}>
       <div className='font-ZenKurenaido space-y-5'>
@@ -39,15 +65,26 @@ export const ShowEventModal = ({ modal, icon, calendarEvent, editEventModal }) =
           </div>
         </div>
       </div>
-      <button type='button' className='button mt-8 ml-auto'
-        onClick={() => {
-          modal.close();
-          editEventModal.open();
-        }}
-      >
-        <PencilSquareIcon className='h-6 w-6' />
-        予定を編集
-      </button>
+      <div className='flex justify-between mt-8'>
+        <button type='button' className='button button-danger'
+          onClick={() => {
+            if (window.confirm('この予定を削除しますします。よろしいですか？')) eventDestroy();
+          }}
+        >
+          <XCircleIcon className='h-6 w-6' />
+          予定を削除
+        </button>
+
+        <button type='button' className='button'
+          onClick={() => {
+            modal.close();
+            editEventModal.open();
+          }}
+        >
+          <PencilSquareIcon className='h-6 w-6' />
+          予定を編集
+        </button>
+      </div>
     </ModalWindow>
   );
 };

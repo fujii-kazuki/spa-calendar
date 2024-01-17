@@ -57,7 +57,7 @@ export const CreateEventModal = ({ modal, icon, calendarEvent, updateCalendar })
             />
           </div>
         </div>
-        <button type='submit' className='button mt-8 ml-auto'>
+        <button type='submit' className='button button-success mt-8 ml-auto'>
           <PlusCircleIcon className='h-6 w-6' />
           追加
         </button>

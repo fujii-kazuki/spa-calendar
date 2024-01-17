@@ -126,6 +126,7 @@ const Calendar = () => {
         icon={<DocumentTextIcon className='h-8 w-8' />}
         calendarEvent={calendarEvent}
         editEventModal={editEventModal}
+        updateCalendar={updateCalendar}
       />
 
       <EditEventModal

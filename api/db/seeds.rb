@@ -7,3 +7,15 @@
 #   ["Action", "Comedy", "Drama", "Horror"].each do |genre_name|
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
+
+puts 'seedの実行を開始'
+
+# seedsフォルダ内の引数ファイルのパスを返す
+def seeds_path(file_name)
+  return "./db/seeds/#{file_name}.rb"
+end
+
+# ユーザー
+require seeds_path('user')
+
+puts 'seedの実行を完了'

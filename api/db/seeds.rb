@@ -18,4 +18,7 @@ end
 # ユーザー
 require seeds_path('user')
 
+# 予定
+require seeds_path('calendar_event')
+
 puts 'seedの実行を完了'

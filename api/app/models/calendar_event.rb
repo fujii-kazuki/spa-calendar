@@ -1,6 +1,8 @@
 class CalendarEvent < ApplicationRecord
   belongs_to :user
 
+  enum color: { blue: 0, red: 10, green: 20, yellow: 30 }
+
   with_options presence: true do
     validates :title
     validates :start_date

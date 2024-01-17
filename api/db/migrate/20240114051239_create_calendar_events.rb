@@ -5,6 +5,7 @@ class CreateCalendarEvents < ActiveRecord::Migration[7.1]
       t.string     :description
       t.date       :start_date
       t.date       :end_date
+      t.integer    :color, default: 0
       t.references :user, foreign_key: true
       t.timestamps
     end

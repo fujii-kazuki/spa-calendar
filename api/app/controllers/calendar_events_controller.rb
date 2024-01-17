@@ -29,7 +29,7 @@ class CalendarEventsController < ApplicationController
 
   # ストロングパラメーター
   def calendar_event_params
-    params.require(:calendar_event).permit(:title, :description, :start_date, :end_date)
+    params.require(:calendar_event).permit(:title, :description, :start_date, :end_date, :color)
   end
 
   # ログインユーザーと予定を追加したユーザーが一致しているか確認

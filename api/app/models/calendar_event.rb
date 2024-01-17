@@ -14,7 +14,7 @@ class CalendarEvent < ApplicationRecord
 
   def date_check
     if start_date.present? && end_date.present? && start_date > end_date
-      errors.add(:end_date, 'は開始日より前の日付で登録できません。')
+      errors.add(:end_date, 'は予定開始日付より前の日付で登録できません。')
     end
   end
 end

@@ -20,15 +20,16 @@ const Calendar = () => {
   const [calendarEvents, setCalendarEvents] = useState([]);
   const createEventModal = useModal({
     title: '予定を追加',
-    closeOnChick: calendarEvent.init
+    closeOnClick: calendarEvent.init
   });
   const showEventModal = useModal({
     title: '予定の詳細',
-    width: '800px'
+    width: '800px',
+    closeOnClick: calendarEvent.init
   });
   const editEventModal = useModal({
     title: '予定を編集',
-    closeOnChick: calendarEvent.init
+    closeOnClick: calendarEvent.init
   });
 
   const navigate = useNavigate();

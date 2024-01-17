@@ -8,7 +8,7 @@ export const ModalWindow = ({modal, icon, children}) => {
     <Modal
       isOpen={modal.isOpen}
       style={{ content: { width: modal.width } }}
-      className={`bg-white rounded-lg shadow-xl`}
+      className='bg-white rounded-lg shadow-xl'
       overlayClassName='fixed top-0 left-0 w-full h-dvh flex items-center justify-center bg-black bg-opacity-10 backdrop-blur z-50'
       closeTimeoutMS={400}
     >

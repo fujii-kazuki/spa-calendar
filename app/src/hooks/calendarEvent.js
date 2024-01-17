@@ -6,18 +6,23 @@ export const useCalendarEvent = () => {
     title: '',
     description: '',
     startDate: '',
-    endDate: ''
+    endDate: '',
+    color: 'blue'
   });
 
   // 初期化
   const init = () => {
-    setCalendarEvent({
-      id: NaN,
-      title: '',
-      description: '',
-      startDate: '',
-      endDate: ''
-    });
+    setTimeout(() => {
+      setCalendarEvent({
+        id: NaN,
+        title: '',
+        description: '',
+        startDate: '',
+        endDate: '',
+        color: 'blue'
+      })},
+      400
+    );
   };
 
   // セッター

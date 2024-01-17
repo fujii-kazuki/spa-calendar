@@ -41,7 +41,8 @@ const Calendar = () => {
       title: info.event.title,
       description: info.event._def.extendedProps.description,
       startDate: dateFormat(info.event.start),
-      endDate: dateFormat(info.event.end || info.event.start)
+      endDate: dateFormat(info.event.end || info.event.start),
+      color: info.event.classNames[0]
     });
 
     // 予定更新モーダルを開く
@@ -69,7 +70,8 @@ const Calendar = () => {
           title: calendarEvent.title,
           description: calendarEvent.description,
           start: new Date(calendarEvent.startDate),
-          end: new Date(calendarEvent.endDate)
+          end: new Date(calendarEvent.endDate),
+          classNames: [calendarEvent.color]
         };
       });
       setCalendarEvents(calendarEvents);

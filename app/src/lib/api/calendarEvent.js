@@ -43,7 +43,7 @@ export const updateCalendarEvent = (params) => {
     !Cookies.get('_uid')
   ) return;
 
-  return client.patch(`/calendar_events/${params.calendarEventId}`, params, {
+  return client.patch(`/calendar_events/${params.id}`, params, {
     headers: {
       'access-token': Cookies.get('_access_token'),
       'client': Cookies.get('_client'),
@@ -60,7 +60,7 @@ export const destroyCalendarEvent = (params) => {
     !Cookies.get('_uid')
   ) return;
 
-  return client.delete(`/calendar_events/${params.calendarEventId}`, {
+  return client.delete(`/calendar_events/${params.id}`, {
     headers: {
       'access-token': Cookies.get('_access_token'),
       'client': Cookies.get('_client'),

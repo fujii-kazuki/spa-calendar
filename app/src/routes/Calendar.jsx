@@ -3,9 +3,9 @@ import { useNavigate } from 'react-router-dom'
 
 import FullCalendar from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
-import { DocumentPlusIcon, DocumentTextIcon, PencilSquareIcon, ArrowLeftStartOnRectangleIcon } from '@heroicons/react/24/outline'
+import { DocumentPlusIcon, DocumentTextIcon, PencilSquareIcon, ArrowLeftStartOnRectangleIcon, UserMinusIcon } from '@heroicons/react/24/outline'
 
-import { signOut, getUser } from '/src/lib/api/auth'
+import { signOut, deleteRegister, getUser } from '/src/lib/api/auth'
 import { getCalendarEvents } from '/src/lib/api/calendarEvent'
 
 import { useCalendarEvent } from '/src/hooks/calendarEvent'
@@ -83,7 +83,8 @@ const Calendar = () => {
   // ログアウト機能
   const logout = async (event) => {
     event.preventDefault();
-    await signOut()
+    if (window.confirm('ログアウトします。よろしいですか？')) {
+      await signOut()
       .then((res) => {
         if (res?.data.success) {
           alert('ログアウトしました。');
@@ -97,6 +98,28 @@ const Calendar = () => {
       .catch(() => {
         alert('ログアウトに失敗しました。');
       })
+    }
+  };
+
+  // アカウント削除機能
+  const deleteAccount = async (event) => {
+    event.preventDefault();
+    if (window.confirm('アカウントを削除します。登録した予定は全て削除されてしまいますが、よろしいですか？')) {
+      await deleteRegister()
+        .then((res) => {
+          if (res?.data.status === 'success') {
+            alert('アカウントの削除が完了しました。またのご利用をお待ちしております。');
+            navigate('/');
+          } else if (res?.data.status === 'error') {
+            // エラーメッセージのアラートを表示
+            const errorMessages = res.data.errors;
+            alert(errorMessages.join('\n'));
+          }
+        })
+        .catch(() => {
+          alert('アカウント削除に失敗しました。');
+        })
+    }
   };
 
   // ログイン判定
@@ -156,11 +179,16 @@ const Calendar = () => {
           selectable={true}
           height='80vh'
         />
-        <div className='flex justify-between'>
-          <button onClick={logout} className='button button-secondary'>
-            <ArrowLeftStartOnRectangleIcon className='h-6 w-6' />
-            ログアウト
-          </button>
+        <div className='flex items-center justify-between'>
+          <div className='flex gap-5 items-center'>
+            <button onClick={deleteAccount} className='button button-danger button-rounded'>
+              <UserMinusIcon className='h-6 w-6' />
+            </button>
+            <button onClick={logout} className='button button-secondary button-rounded'>
+              <ArrowLeftStartOnRectangleIcon className='h-6 w-6' />
+            </button>
+          </div>
+
           <button onClick={createEventModal.open} className='button'>
             <DocumentPlusIcon className='h-6 w-6' />
             予定を追加

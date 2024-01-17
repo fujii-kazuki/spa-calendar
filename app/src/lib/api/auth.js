@@ -48,6 +48,25 @@ export const signOut = async () => {
     })
 };
 
+// 登録削除
+export const deleteRegister = async () => {
+  return await client.delete('auth', {
+    headers: {
+      'access-token': Cookies.get('_access_token'),
+      'client': Cookies.get('_client'),
+      'uid': Cookies.get('_uid'),
+    }
+  }).then((res) => {
+    Cookies.remove('_access_token');
+    Cookies.remove('_client');
+    Cookies.remove('_uid');
+    return res;
+  })
+  .catch((err) => {
+    return err.response;
+  })
+}
+
 // ログイン済みのユーザーを返す
 export const getUser = () => {
   if (

@@ -1,0 +1,39 @@
+services:
+  db:
+    image: mysql:8.2.0
+    volumes:
+      - ./db/mysql_data:/var/lib/mysql
+    environment:
+      TZ: Asia/Tokyo
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:-password}
+    command: --default-authentication-plugin=mysql_native_password
+    tty: true
+    stdin_open: true
+  
+  api:
+    build:
+      context: api
+      dockerfile: Dockerfile
+    volumes:
+      - ./api:/api
+    environment:
+      TZ: Asia/Tokyo
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:-password}
+      MYSQL_HOST_NAME: db
+    depends_on:
+      db:
+        condition: service_started
+    tty: true
+    stdin_open: true
+
+  app:
+    build:
+      context: app
+      dockerfile: Dockerfile
+    volumes:
+      - ./app:/app
+    environment:
+      TZ: Asia/Tokyo
+      VITE_APP_API_DOMAIN: ${API_DOMAIN:-http://localhost:3000}
+    tty: true
+    stdin_open: true

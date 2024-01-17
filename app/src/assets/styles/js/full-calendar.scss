@@ -1,0 +1,78 @@
+.fc {
+  font-family: ZenKurenaido;
+  font-weight: bold;
+
+  a {
+    color: black;
+  }
+
+  &-event {
+    background-color: transparent;
+    border: none;
+    border-radius: 0;
+
+    &:hover, &:focus {
+      box-shadow: 0 8px 8px -5px rgba(13,110,253,.25);
+      outline: none;
+
+      &::before, &::after {
+        display: none;
+      }
+    }
+
+    &.blue {
+      @apply bg-gradient-to-b from-transparent from-70% to-blue-400 to-70%;
+
+      &:hover, &:focus {
+        @apply bg-gradient-to-b from-transparent from-70% to-blue-500 to-70%;
+      }
+    }
+
+    &.red {
+      @apply bg-gradient-to-b from-transparent from-70% to-red-400 to-70%;
+
+      &:hover, &:focus {
+        @apply bg-gradient-to-b from-transparent from-70% to-red-500 to-70%;
+      }
+    }
+
+    &.green {
+      @apply bg-gradient-to-b from-transparent from-70% to-green-400 to-70%;
+
+      &:hover, &:focus {
+        @apply bg-gradient-to-b from-transparent from-70% to-green-500 to-70%;
+      }
+    }
+
+    &.yellow {
+      @apply bg-gradient-to-b from-transparent from-70% to-yellow-400 to-70%;
+
+      &:hover, &:focus {
+        @apply bg-gradient-to-b from-transparent from-70% to-yellow-500 to-70%;
+      }
+    }
+
+    &-title {
+      color: black;
+      font-size: 1rem;
+    }
+  }
+  
+  &-day {
+    &-sat {
+      @apply bg-blue-50;
+
+      & a {
+        @apply text-blue-600
+      }
+    }
+  
+    &-sun {
+      @apply bg-red-50;
+
+      & a {
+        @apply text-red-600
+      }
+    }
+  }
+}

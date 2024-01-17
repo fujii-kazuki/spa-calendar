@@ -6,12 +6,19 @@ import { PencilSquareIcon, ArrowLeftStartOnRectangleIcon } from '@heroicons/reac
 import { signOut, getUser } from '/src/lib/api/auth'
 import { getCalendarEvents } from '/src/lib/api/calendarEvent';
 import { CreateEventModal } from '/src/components/CreateEventModal'
+import { UpdateEventModal } from '/src/components/UpdateEventModal'
 
 const Calendar = () => {
   const [createEventModalIsOpen, setCreateEventModalIsOpen] = useState(false);
+  const [updateEventModalIsOpen, setUpdateEventModalIsOpen] = useState(false);
 
   const [events, setEvents] = useState();
+  const [updateTitle, setTitle] = useState('');
+  const [updateDescription, setDescription] = useState('');
+  const [updateStartDate, setStartDate] = useState('');
+  const [updateEndDate, setEndDate] = useState('');
   const [eventId, setEventId] = useState('');
+
   const navigate = useNavigate();
 
   const clearEvents = async() => {
@@ -22,8 +29,8 @@ const Calendar = () => {
           eventId: calendarEvent.id,
           title: calendarEvent.title,
           description: calendarEvent.description,
-          start: calendarEvent.startDate,
-          end: calendarEvent.endDate
+          start: new Date(calendarEvent.startDate),
+          end: new Date(calendarEvent.endDate)
         };
       });
       setEvents(calendarEvents);
@@ -68,10 +75,22 @@ const Calendar = () => {
 
   const eventClick = (info) => {
     setTitle(info.event.title);
-    setDescription(info.event.extendedProps.description);
-    setStartDate(info.event.start);
-    setEndDate(info.event.end);
-    setEventId(info.event.extendedProps.eventId);
+    setDescription(info.event._def.extendedProps.description);
+    setStartDate(dateFormat(info.event.start));
+    setEndDate(dateFormat(info.event.end || info.event.start));
+    setEventId(info.event._def.extendedProps.eventId);
+    setUpdateEventModalIsOpen(true);
+
+    function dateFormat(date) {
+      return new Date(date)
+        .toLocaleDateString("ja-JP", {
+          year: "numeric",
+          month: "2-digit",
+          day: "2-digit",
+        })
+        .split("/")
+        .join("-");
+    }; 
   };
 
   return (
@@ -81,6 +100,25 @@ const Calendar = () => {
         setIsOpen={setCreateEventModalIsOpen}
         clearEvents={clearEvents}
       />
+
+      <UpdateEventModal
+        isOpen={updateEventModalIsOpen}
+        setIsOpen={setUpdateEventModalIsOpen}
+        eventUseStatus={{
+          title: updateTitle,
+          setTitle: setTitle,
+          description: updateDescription,
+          setDescription: setDescription,
+          startDate: updateStartDate,
+          setStartDate: setStartDate,
+          endDate: updateEndDate,
+          setEndDate: setEndDate,
+          eventId: eventId,
+          setEventId: setEventId
+        }}
+        clearEvents={clearEvents}
+      />
+
       <div className='container h-dvh flex flex-col gap-8 justify-center'>
         <FullCalendar
           plugins={[dayGridPlugin]}
@@ -92,8 +130,11 @@ const Calendar = () => {
             right: 'prev,next'
           }}
           eventClick={eventClick}
+          displayEventTime={false}
+          eventDisplay='block'
           editable={true}
           selectable={true}
+          
           height='80vh'
         />
         <div className='flex justify-between'>

@@ -7,10 +7,20 @@
   }
 
   &-event {
-    @apply bg-gradient-to-b from-transparent from-70% to-blue-400 to-70% hover:bg-gradient-to-b hover:from-transparent hover:from-70% hover:to-blue-500 hover:to-70%;
+    @apply bg-gradient-to-b from-transparent from-70% to-blue-400 to-70%;
     background-color: transparent;
     border: none;
     border-radius: 0;
+
+    &:hover, &:focus {
+      @apply bg-gradient-to-b from-transparent from-70% to-blue-500 to-70%;
+      box-shadow: 0 8px 8px -5px rgba(13,110,253,.25);
+      outline: none;
+
+      &::before, &::after {
+        display: none;
+      }
+    }
 
     &-title {
       color: black;

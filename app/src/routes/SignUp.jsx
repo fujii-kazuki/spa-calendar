@@ -51,7 +51,7 @@ const SignUp = () => {
         <h2 className='text-2xl'>ユーザー登録</h2>
         <form onSubmit={register}>
           <div className='space-y-5'>
-            <input type="email" name="email" placeholder='メールアドレス'
+            <input type="email" name="email" placeholder='メールアドレス' autoFocus
               onChange={(event) => setEmail(event.target.value)}
             />
             <input type="password" name="password" placeholder='パスワード'

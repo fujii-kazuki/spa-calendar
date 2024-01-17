@@ -1,4 +1,5 @@
 import { useRef } from 'react'
+import { PlusCircleIcon } from '@heroicons/react/24/outline'
 import { ModalWindow } from '/src/components/modals/ModalWindow'
 import { createCalendarEvent } from '/src/lib/api/calendarEvent'
 
@@ -57,6 +58,7 @@ export const CreateEventModal = ({ modal, icon, calendarEvent, updateCalendar })
           </div>
         </div>
         <button type='submit' className='button mt-8 ml-auto'>
+          <PlusCircleIcon className='h-6 w-6' />
           追加
         </button>
       </form>

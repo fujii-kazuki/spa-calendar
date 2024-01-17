@@ -13,10 +13,10 @@ export const ModalWindow = ({modal, icon, children}) => {
       closeTimeoutMS={400}
     >
       <div className='flex items-center justify-between p-6 border-b'>
-        <h1 className='text-2xl flex gap-1 items-center'>
+        <h2 className='text-2xl flex gap-1 items-center'>
           { icon }
           { modal.title }
-        </h1>
+        </h2>
         <button className='text-gray-400 bg-gray-100 rounded-lg transition-all hover:bg-gray-200 hover:text-gray-900'
           onClick={() => {
             modal.close();

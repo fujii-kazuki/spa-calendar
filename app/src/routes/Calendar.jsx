@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 
 import FullCalendar from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
-import { PencilSquareIcon, ArrowPathIcon, ArrowLeftStartOnRectangleIcon } from '@heroicons/react/24/outline'
+import { DocumentPlusIcon, DocumentTextIcon, PencilSquareIcon, ArrowLeftStartOnRectangleIcon } from '@heroicons/react/24/outline'
 
 import { signOut, getUser } from '/src/lib/api/auth'
 import { getCalendarEvents } from '/src/lib/api/calendarEvent'
@@ -12,7 +12,8 @@ import { useCalendarEvent } from '/src/hooks/calendarEvent'
 import { useModal } from '../hooks/modal'
 
 import { CreateEventModal } from '/src/components/modals/CreateEventModal'
-import { UpdateEventModal } from '/src/components/modals/UpdateEventModal'
+import { ShowEventModal } from '/src/components/modals/ShowEventModal'
+import { EditEventModal } from '/src/components/modals/EditEventModal'
 
 const Calendar = () => {
   const calendarEvent = useCalendarEvent();
@@ -21,8 +22,12 @@ const Calendar = () => {
     title: '予定を追加',
     closeOnChick: calendarEvent.init
   });
-  const updateEventModal = useModal({
-    title: '予定を更新',
+  const showEventModal = useModal({
+    title: '予定の詳細',
+    width: '800px'
+  });
+  const editEventModal = useModal({
+    title: '予定を編集',
     closeOnChick: calendarEvent.init
   });
 
@@ -39,7 +44,7 @@ const Calendar = () => {
     });
 
     // 予定更新モーダルを開く
-    updateEventModal.open();
+    showEventModal.open();
 
     function dateFormat(date) {
       return new Date(date)
@@ -111,14 +116,21 @@ const Calendar = () => {
     <>
       <CreateEventModal
         modal={createEventModal}
-        icon={<PencilSquareIcon className='h-8 w-8' />}
+        icon={<DocumentPlusIcon className='h-8 w-8' />}
         calendarEvent={calendarEvent}
         updateCalendar={updateCalendar}
       />
 
-      <UpdateEventModal
-        modal={updateEventModal}
-        icon={<ArrowPathIcon className='h-8 w-8' />}
+      <ShowEventModal
+        modal={showEventModal}
+        icon={<DocumentTextIcon className='h-8 w-8' />}
+        calendarEvent={calendarEvent}
+        editEventModal={editEventModal}
+      />
+
+      <EditEventModal
+        modal={editEventModal}
+        icon={<PencilSquareIcon className='h-8 w-8' />}
         calendarEvent={calendarEvent}
         updateCalendar={updateCalendar}
       />
@@ -141,12 +153,12 @@ const Calendar = () => {
           height='80vh'
         />
         <div className='flex justify-between'>
-          <button onClick={logout} className='button button-secondary flex items-center'>
+          <button onClick={logout} className='button button-secondary'>
             <ArrowLeftStartOnRectangleIcon className='h-6 w-6' />
             ログアウト
           </button>
-          <button onClick={createEventModal.open} className='button flex items-center'>
-            <PencilSquareIcon className='h-6 w-6' />
+          <button onClick={createEventModal.open} className='button'>
+            <DocumentPlusIcon className='h-6 w-6' />
             予定を追加
           </button>
         </div>

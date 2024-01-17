@@ -1,6 +1,8 @@
 @layer components {
   .button {
-    display: block;
+    display: flex;
+    column-gap: .15em;
+    align-items: center;
     font-family: ZenKurenaido;
     font-weight: 800;
     text-align: center;

@@ -1,20 +1,9 @@
 import { useState } from 'react'
 
-export const useModal = (initStatus) => {
+export const useModal = () => {
   const [modal, setModal] = useState({
-    title: initStatus.title || 'No title',
-    width: initStatus.width || '600px',
-    isOpen: initStatus.isOpen || false,
-    closeOnClick: initStatus.closeOnClick || function() {}
+    isOpen: false
   });
-
-  // セッター
-  const set = (obj) => {
-    setModal({
-      ...modal,
-      ...obj
-    });
-  };
 
   // 開く
   const open = () => {
@@ -32,5 +21,5 @@ export const useModal = (initStatus) => {
     });
   };
 
-  return { ...modal, set, open, close };
+  return { ...modal, open, close };
 };

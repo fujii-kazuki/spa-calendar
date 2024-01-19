@@ -1,6 +1,10 @@
-import { Link, useNavigate } from 'react-router-dom'
 import { useState, useEffect } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
+
 import { signIn, getUser } from '/src/lib/api/auth'
+
+import { Form } from '/src/components/forms/Form'
+
 import topImage from '/src/assets/images/top.svg'
 
 const App = () => {
@@ -48,24 +52,25 @@ const App = () => {
 
       <div className='flex-1 max-w-[600px] space-y-8'>
         <h2 className='text-2xl'>ログイン</h2>
-        <form
+        
+        <Form
           onSubmit={(event) => {
             event.preventDefault();
             login();
           }}
         >
-          <div className='space-y-5'>
-            <input type='email' name='email' placeholder='メールアドレス' autoFocus
-              onChange={(event) => setEmail(event.target.value)}
-            />
-            <input type='password' name='password' placeholder='パスワード'
-              onChange={(event) => setPassword(event.target.value)}
-            />
-          </div>
-          <button type='submit' className='button mt-8 mx-auto'>
+          <input type='email' name='email' placeholder='メールアドレス' autoFocus
+            onChange={(event) => setEmail(event.target.value)}
+          />
+
+          <input type='password' name='password' placeholder='パスワード'
+            onChange={(event) => setPassword(event.target.value)}
+          />
+
+          <button type='submit' className='button !mt-10 mx-auto'>
             ログイン
           </button>
-        </form>
+        </Form>
 
         <div className='text-right'>
           <Link to='/sign-up'>ユーザー登録はこちら</Link>

@@ -33,7 +33,7 @@ export const ModalWindow = ({
           <XMarkIcon className='h-8 w-8' />
         </button>
       </div>
-      <div className='p-8'>
+      <div className='space-y-6 p-8'>
         { children }
       </div>
     </Modal>

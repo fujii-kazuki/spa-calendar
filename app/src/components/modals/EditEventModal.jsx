@@ -4,7 +4,7 @@ import { PencilSquareIcon, ArrowPathIcon } from '@heroicons/react/24/outline'
 import { updateCalendarEvent } from '/src/lib/api/calendarEvent'
 
 import { ModalWindow } from '/src/components/modals/ModalWindow'
-import { ColorPicker } from '/src/components/ColorPicker'
+import { CalendarEventForm } from '/src/components/forms/CalendarEventForm'
 
 export const EditEventModal = ({ modal, calendarEvent, updateCalendar }) => {
   const isProc = useRef(false); //送信処理の管理
@@ -47,40 +47,15 @@ export const EditEventModal = ({ modal, calendarEvent, updateCalendar }) => {
       title='予定を編集'
       closeOnClick={calendarEvent.init}
     >
-      <form onSubmit={updateEvent}>
-        <div className='space-y-6'>
-          <input type='text' name='title' placeholder='タイトル' autoFocus
-            value={calendarEvent.title}
-            onChange={(event) => calendarEvent.set({ title: event.target.value })}
-          />
-          <input type='text' name='description' placeholder='説明'
-            value={calendarEvent.description}
-            onChange={(event) => calendarEvent.set({ description: event.target.value })}
-          />
-          <div>
-            <label htmlFor='startDate' className='font-ZenKurenaido font-extrabold'>予定開始日付</label>
-            <input type='date' name='description' id='startDate'
-              value={calendarEvent.startDate}
-              onChange={(event) => calendarEvent.set({ startDate: event.target.value })}
-            />
-          </div>
-          <div>
-            <label htmlFor='endDate' className='font-ZenKurenaido font-extrabold'>予定終了日付</label>
-            <input type='date' name='description' id='endDate'
-              value={calendarEvent.endDate}
-              onChange={(event) => calendarEvent.set({ endDate: event.target.value })}
-            />
-          </div>
-          <div className='flex gap-5 items-center'>
-            <label className='font-ZenKurenaido font-extrabold'>色</label>
-            <ColorPicker calendarEvent={calendarEvent} />
-          </div>
-        </div>
-        <button type='submit' className='button button-success mt-10 ml-auto'>
+      <CalendarEventForm
+        calendarEvent={calendarEvent}
+        onSubmit={updateEvent}
+      >
+        <button type='submit' className='button button-success !mt-10 ml-auto'>
           <ArrowPathIcon className='h-6 w-6' />
           更新
         </button>
-      </form>
+      </CalendarEventForm>
     </ModalWindow>
   );
 };

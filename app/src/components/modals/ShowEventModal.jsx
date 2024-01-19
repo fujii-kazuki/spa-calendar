@@ -82,12 +82,12 @@ export const ShowEventModal = ({ modal, calendarEvent, updateCalendar }) => {
             </div>
           </div>
         </div>
-        <div className='flex justify-between mt-10'>
+
+        <div className='flex justify-between !mt-10'>
           <button type='button' className='button button-danger button-rounded'
             onClick={eventDestroy}
           >
             <TrashIcon className='h-6 w-6' />
-            
           </button>
 
           <button type='button' className='button'

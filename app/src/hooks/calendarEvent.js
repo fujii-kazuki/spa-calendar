@@ -33,5 +33,5 @@ export const useCalendarEvent = () => {
     });
   };
 
-  return { ...calendarEvent, set, init };
+  return { ...calendarEvent, init, set };
 };

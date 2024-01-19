@@ -1,13 +1,11 @@
-import Cookies from 'js-cookie'
 import client from './client'
+import session from '../session'
 
 // サインアップ
 export const signUp = async (params) => {
   return await client.post('auth', params)
     .then((res) => {
-      Cookies.set('_access_token', res.headers['access-token']);
-      Cookies.set('_client', res.headers['client']);
-      Cookies.set('_uid', res.headers['uid']);
+      session.cookies.set(res.headers);
       return res;
     })
     .catch((err) => {
@@ -19,9 +17,7 @@ export const signUp = async (params) => {
 export const signIn = async (params) => {
   return await client.post('auth/sign_in', params)
     .then((res) => {
-      Cookies.set('_access_token', res.headers['access-token']);
-      Cookies.set('_client', res.headers['client']);
-      Cookies.set('_uid', res.headers['uid']);
+      session.cookies.set(res.headers);
       return res;
     })
     .catch((err) => {
@@ -32,15 +28,9 @@ export const signIn = async (params) => {
 // サインアウト
 export const signOut = async () => {
   return await client.delete('auth/sign_out', {
-      headers: {
-        'access-token': Cookies.get('_access_token'),
-        'client': Cookies.get('_client'),
-        'uid': Cookies.get('_uid'),
-      }
+      headers: session.headers()
     }).then((res) => {
-      Cookies.remove('_access_token');
-      Cookies.remove('_client');
-      Cookies.remove('_uid');
+      session.cookies.remove();
       return res;
     })
     .catch((err) => {
@@ -51,15 +41,9 @@ export const signOut = async () => {
 // 登録削除
 export const deleteRegister = async () => {
   return await client.delete('auth', {
-    headers: {
-      'access-token': Cookies.get('_access_token'),
-      'client': Cookies.get('_client'),
-      'uid': Cookies.get('_uid'),
-    }
+    headers: session.headers()
   }).then((res) => {
-    Cookies.remove('_access_token');
-    Cookies.remove('_client');
-    Cookies.remove('_uid');
+    session.cookies.remove();
     return res;
   })
   .catch((err) => {
@@ -69,17 +53,9 @@ export const deleteRegister = async () => {
 
 // ログイン済みのユーザーを返す
 export const getUser = () => {
-  if (
-    !Cookies.get('_access_token') ||
-    !Cookies.get('_client') ||
-    !Cookies.get('_uid')
-  ) return;
+  if (!session.cookies.isExist()) return;
 
   return client.get('/auth/sessions', {
-    headers: {
-      'access-token': Cookies.get('_access_token'),
-      'client': Cookies.get('_client'),
-      'uid': Cookies.get('_uid'),
-    },
+    headers: session.headers()
   });
 };

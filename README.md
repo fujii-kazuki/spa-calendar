@@ -1,5 +1,5 @@
 # SPA Calendar
-Rails API + React」を使用したカレンダー式予定管理アプリ
+「Rails API + React」を使用したカレンダー式予定管理アプリ
 
 <img style="width: 48%;" src="https://github.com/fujii-kazuki/spa-calendar/assets/142955783/3251f125-d1fa-476c-88ee-bbd40e13e298">
 <img style="width: 48%;" src="https://github.com/fujii-kazuki/spa-calendar/assets/142955783/d0ecd987-ac22-4f4b-8bdd-b4f12d7904e6">
@@ -10,6 +10,7 @@ Rails API + React」を使用したカレンダー式予定管理アプリ
 - [プレビュー](#プレビュー)
 - [テーマについて](#テーマについて)
 - [工夫・アピール](#工夫アピール)
+- [反省点](#反省点)
 - [使用技術](#使用技術)
 - [機能一覧](#機能一覧)
 - [作成期間](#作成期間)
@@ -31,7 +32,7 @@ https://github.com/fujii-kazuki/spa-calendar/assets/142955783/fbdbfbcf-51fe-40c9
 
 ## 反省点
 - SPAを活かせる「ページ遷移アニメーション」の実装が出来れば良かったが、計画が甘く、時間が足りなかった
-- もう少し個性的な機能とアイデアが欲しい
+- もう少し個性的な機能とアイデアがあると良かった
 
 ## 使用技術
 - バックエンド

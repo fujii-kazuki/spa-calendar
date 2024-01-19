@@ -1,10 +1,12 @@
 import { useRef } from 'react'
-import { PlusCircleIcon } from '@heroicons/react/24/outline'
-import { ColorPicker } from '/src/components/ColorPicker'
-import { ModalWindow } from '/src/components/modals/ModalWindow'
+
+import { DocumentPlusIcon, PlusCircleIcon } from '@heroicons/react/24/outline'
 import { createCalendarEvent } from '/src/lib/api/calendarEvent'
 
-export const CreateEventModal = ({ modal, icon, calendarEvent, updateCalendar }) => {
+import { ModalWindow } from '/src/components/modals/ModalWindow'
+import { ColorPicker } from '/src/components/ColorPicker'
+
+export const CreateEventModal = ({ modal, calendarEvent, updateCalendar }) => {
   const isProc = useRef(false); //送信処理の管理
 
   // 予定を作成
@@ -38,7 +40,12 @@ export const CreateEventModal = ({ modal, icon, calendarEvent, updateCalendar })
   };
 
   return (
-    <ModalWindow modal={modal} icon={icon}>
+    <ModalWindow
+      modal={modal}
+      icon={<DocumentPlusIcon className='h-8 w-8' />}
+      title='予定を追加'
+      closeOnClick={calendarEvent.init}
+    >
       <form onSubmit={createEvent}>
         <div className='space-y-6'>
           <input type='text' name='title' placeholder='タイトル' autoFocus

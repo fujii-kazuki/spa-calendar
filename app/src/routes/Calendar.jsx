@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 
 import FullCalendar from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
-import { DocumentPlusIcon, DocumentTextIcon, PencilSquareIcon, ArrowLeftStartOnRectangleIcon, UserMinusIcon } from '@heroicons/react/24/outline'
+import { DocumentPlusIcon, ArrowLeftStartOnRectangleIcon, UserMinusIcon } from '@heroicons/react/24/outline'
 
 import { signOut, deleteRegister, getUser } from '/src/lib/api/auth'
 import { getCalendarEvents } from '/src/lib/api/calendarEvent'
@@ -13,24 +13,12 @@ import { useModal } from '../hooks/modal'
 
 import { CreateEventModal } from '/src/components/modals/CreateEventModal'
 import { ShowEventModal } from '/src/components/modals/ShowEventModal'
-import { EditEventModal } from '/src/components/modals/EditEventModal'
 
 const Calendar = () => {
   const calendarEvent = useCalendarEvent();
   const [calendarEvents, setCalendarEvents] = useState([]);
-  const createEventModal = useModal({
-    title: '予定を追加',
-    closeOnClick: calendarEvent.init
-  });
-  const showEventModal = useModal({
-    title: '予定の詳細',
-    width: '800px',
-    closeOnClick: calendarEvent.init
-  });
-  const editEventModal = useModal({
-    title: '予定を編集',
-    closeOnClick: calendarEvent.init
-  });
+  const createEventModal = useModal();
+  const showEventModal = useModal();
 
   const navigate = useNavigate();
 
@@ -142,22 +130,12 @@ const Calendar = () => {
     <>
       <CreateEventModal
         modal={createEventModal}
-        icon={<DocumentPlusIcon className='h-8 w-8' />}
         calendarEvent={calendarEvent}
         updateCalendar={updateCalendar}
       />
 
       <ShowEventModal
         modal={showEventModal}
-        icon={<DocumentTextIcon className='h-8 w-8' />}
-        calendarEvent={calendarEvent}
-        editEventModal={editEventModal}
-        updateCalendar={updateCalendar}
-      />
-
-      <EditEventModal
-        modal={editEventModal}
-        icon={<PencilSquareIcon className='h-8 w-8' />}
         calendarEvent={calendarEvent}
         updateCalendar={updateCalendar}
       />

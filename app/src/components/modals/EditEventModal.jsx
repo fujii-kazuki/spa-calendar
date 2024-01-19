@@ -1,10 +1,12 @@
 import { useRef } from 'react'
-import { ArrowPathIcon } from '@heroicons/react/24/outline'
-import { ColorPicker } from '/src/components/ColorPicker'
-import { ModalWindow } from '/src/components/modals/ModalWindow'
+
+import { PencilSquareIcon, ArrowPathIcon } from '@heroicons/react/24/outline'
 import { updateCalendarEvent } from '/src/lib/api/calendarEvent'
 
-export const EditEventModal = ({ modal, icon, calendarEvent, updateCalendar }) => {
+import { ModalWindow } from '/src/components/modals/ModalWindow'
+import { ColorPicker } from '/src/components/ColorPicker'
+
+export const EditEventModal = ({ modal, calendarEvent, updateCalendar }) => {
   const isProc = useRef(false); //送信処理の管理
 
   // 予定を更新
@@ -39,7 +41,12 @@ export const EditEventModal = ({ modal, icon, calendarEvent, updateCalendar }) =
   };
 
   return (
-    <ModalWindow modal={modal} icon={icon}>
+    <ModalWindow
+      modal={modal}
+      icon={<PencilSquareIcon className='h-8 w-8' />}
+      title='予定を編集'
+      closeOnClick={calendarEvent.init}
+    >
       <form onSubmit={updateEvent}>
         <div className='space-y-6'>
           <input type='text' name='title' placeholder='タイトル' autoFocus

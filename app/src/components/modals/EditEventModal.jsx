@@ -6,14 +6,10 @@ export const EditEventModal = ({ modal, calendar, calendarEvent }) => {
   // 予定を更新
   const updateCalendarEvent = async (event) => {
     event.preventDefault();
-    try {
-      await calendarEvent.update(); //予定更新のAPIを叩く
-      await calendar.update();      //予定更新後、カレンダーを更新
-      await modal.close();          //カレンダー更新後、モーダルを閉じる
-      calendarEvent.initState();    //モーダルが閉じ切った後、予定のstateを初期化
-    } catch (err) {
-      console.log(err);
-    }
+    await calendarEvent.update(); //予定更新のAPIを叩く
+    await calendar.update();      //予定更新後、カレンダーを更新
+    await modal.close();          //カレンダー更新後、モーダルを閉じる
+    calendarEvent.initState();    //モーダルが閉じ切った後、予定のstateを初期化
   };
 
   return (

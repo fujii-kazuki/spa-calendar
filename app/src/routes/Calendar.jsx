@@ -1,22 +1,27 @@
-import { useState, useEffect } from 'react'
+import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-
+// npm「FullCalendar」
 import FullCalendar from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
-import { DocumentPlusIcon, ArrowLeftStartOnRectangleIcon, UserMinusIcon } from '@heroicons/react/24/outline'
-
-import { signOut, deleteRegister, getUser } from '/src/lib/api/auth'
-
+// カスタムフック
 import { useCalendar } from '/src/hooks/calendar'
 import { useCalendarEvent } from '/src/hooks/calendarEvent'
-import { useModal } from '../hooks/modal'
-
+import { useUser } from '/src/hooks/user'
+import { useModal } from '/src/hooks/modal'
+// コンポーネント
 import { CreateEventModal } from '/src/components/modals/CreateEventModal'
 import { ShowEventModal } from '/src/components/modals/ShowEventModal'
+// アイコン
+import {
+  DocumentPlusIcon,
+  ArrowLeftStartOnRectangleIcon,
+  UserMinusIcon
+} from '@heroicons/react/24/outline'
 
 const Calendar = () => {
   const calendar = useCalendar();
   const calendarEvent = useCalendarEvent();
+  const user = useUser();
   const createEventModal = useModal();
   const showEventModal = useModal();
 
@@ -48,60 +53,38 @@ const Calendar = () => {
     }; 
   };
 
-  // ログアウト機能
+  // ログアウト
   const logout = async (event) => {
     event.preventDefault();
     if (window.confirm('ログアウトします。よろしいですか？')) {
-      await signOut()
-      .then((res) => {
-        if (res?.data.success) {
-          alert('ログアウトしました。');
-        } else {
-          // エラーメッセージのアラートを表示
-          const errorMessages = res.data.errors;
-          alert(errorMessages.join('\n'));
-        }
+      try {
+        await user.logout();  //ログアウトAPIを叩く
+        navigate('/');        //ログアウト後、トップページへ遷移
+      } catch {
         navigate('/');
-      })
-      .catch(() => {
-        alert('ログアウトに失敗しました。');
-      })
+      }
     }
   };
 
-  // アカウント削除機能
-  const deleteAccount = async (event) => {
+  // ユーザーを削除
+  const deleteUser = async (event) => {
     event.preventDefault();
     if (window.confirm('アカウントを削除します。登録した予定は全て削除されてしまいますが、よろしいですか？')) {
-      await deleteRegister()
-        .then((res) => {
-          if (res?.data.status === 'success') {
-            alert('アカウントの削除が完了しました。またのご利用をお待ちしております。');
-            navigate('/');
-          } else if (res?.data.status === 'error') {
-            // エラーメッセージのアラートを表示
-            const errorMessages = res.data.errors;
-            alert(errorMessages.join('\n'));
-          }
-        })
-        .catch(() => {
-          alert('アカウント削除に失敗しました。');
-        })
+      try {
+        await user.deleteRegister();
+        alert('アカウントの削除が完了しました。またのご利用をお待ちしております。');
+        navigate('/');
+      } catch {
+        navigate('/');
+      }
     }
   };
 
-  // ログイン判定
   useEffect(() => {
     const f = async () => {
-      try {
-        const res = await getUser();
-        if (!res?.data.isLogin) {
-          navigate('/');
-        }
-        await calendar.update();
-      } catch (e) {
-        console.log(e);
-      }
+      // ログイン状態ならカレンダーを更新
+      // ログイン状態でなければトップページへ遷移
+      await user.isLogin() ? calendar.update() : navigate('/');
     };
     f();
   }, [navigate]);
@@ -139,7 +122,7 @@ const Calendar = () => {
         />
         <div className='flex items-center justify-between'>
           <div className='flex gap-5 items-center'>
-            <button onClick={deleteAccount} className='button button-danger button-rounded'>
+            <button onClick={deleteUser} className='button button-danger button-rounded'>
               <UserMinusIcon className='h-6 w-6' />
             </button>
             <button onClick={logout} className='button button-secondary button-rounded'>

@@ -9,14 +9,10 @@ export const ShowEventModal = ({ modal, calendar, calendarEvent }) => {
   // 予定を削除
   const destroyCalendarEvent = async () => {
     if (window.confirm('この予定を削除します。よろしいですか？')) {
-      try {
-        await calendarEvent.destroy();  //予定削除のAPIを叩く
-        await calendar.update();        //予定削除後、カレンダーを更新
-        await modal.close();            //カレンダー更新後、モーダルを閉じる
-        calendarEvent.initState();      //モーダルが閉じ切った後、予定のstateを初期化
-      } catch (err) {
-        console.log(err);
-      }
+      await calendarEvent.destroy();  //予定削除のAPIを叩く
+      await calendar.update();        //予定削除後、カレンダーを更新
+      await modal.close();            //カレンダー更新後、モーダルを閉じる
+      calendarEvent.initState();      //モーダルが閉じ切った後、予定のstateを初期化
     }
   };
 

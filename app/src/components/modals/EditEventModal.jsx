@@ -1,43 +1,19 @@
-import { useRef } from 'react'
-
-import { PencilSquareIcon, ArrowPathIcon } from '@heroicons/react/24/outline'
-import { updateCalendarEvent } from '/src/lib/api/calendarEvent'
-
 import { ModalWindow } from '/src/components/modals/ModalWindow'
 import { CalendarEventForm } from '/src/components/forms/CalendarEventForm'
+import { PencilSquareIcon, ArrowPathIcon } from '@heroicons/react/24/outline'
 
 export const EditEventModal = ({ modal, calendarEvent, updateCalendar }) => {
-  const isProc = useRef(false); //送信処理の管理
-
   // 予定を更新
-  const updateEvent = async (event) => {
+  const updateCalendarEvent = (event) => {
     event.preventDefault();
-
-    if (isProc.current) return;
-    isProc.current = true;
-
-    await updateCalendarEvent({
-      id: calendarEvent.id,
-      title: calendarEvent.title,
-      description: calendarEvent.description,
-      startDate: calendarEvent.startDate,
-      endDate: calendarEvent.endDate,
-      color: calendarEvent.color
-    })
-    .then(() => {
+    // 予定更新成功後の処理
+    const callback = () => {
       updateCalendar().then(() => {
         modal.close();
         calendarEvent.initState();
       });
-    })
-    .catch((err) => {
-      // エラーメッセージのアラートを表示
-      const errorMessages = err.response.data.errors;
-      alert(errorMessages.join('\n'));
-    })
-    .finally(() => {
-      isProc.current = false;
-    });
+    };
+    calendarEvent.update(callback);
   };
 
   return (
@@ -49,7 +25,7 @@ export const EditEventModal = ({ modal, calendarEvent, updateCalendar }) => {
     >
       <CalendarEventForm
         calendarEvent={calendarEvent}
-        onSubmit={updateEvent}
+        onSubmit={updateCalendarEvent}
       >
         <button type='submit' className='button button-success !mt-10 ml-auto'>
           <ArrowPathIcon className='h-6 w-6' />

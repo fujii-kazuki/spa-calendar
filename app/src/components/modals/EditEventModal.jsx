@@ -1,43 +1,15 @@
-import { useRef } from 'react'
-
-import { PencilSquareIcon, ArrowPathIcon } from '@heroicons/react/24/outline'
-import { updateCalendarEvent } from '/src/lib/api/calendarEvent'
-
 import { ModalWindow } from '/src/components/modals/ModalWindow'
 import { CalendarEventForm } from '/src/components/forms/CalendarEventForm'
+import { PencilSquareIcon, ArrowPathIcon } from '@heroicons/react/24/outline'
 
-export const EditEventModal = ({ modal, calendarEvent, updateCalendar }) => {
-  const isProc = useRef(false); //送信処理の管理
-
+export const EditEventModal = ({ modal, calendar, calendarEvent }) => {
   // 予定を更新
-  const updateEvent = async (event) => {
+  const updateCalendarEvent = async (event) => {
     event.preventDefault();
-
-    if (isProc.current) return;
-    isProc.current = true;
-
-    await updateCalendarEvent({
-      id: calendarEvent.id,
-      title: calendarEvent.title,
-      description: calendarEvent.description,
-      startDate: calendarEvent.startDate,
-      endDate: calendarEvent.endDate,
-      color: calendarEvent.color
-    })
-    .then(() => {
-      updateCalendar().then(() => {
-        modal.close();
-        calendarEvent.init();
-      });
-    })
-    .catch((err) => {
-      // エラーメッセージのアラートを表示
-      const errorMessages = err.response.data.errors;
-      alert(errorMessages.join('\n'));
-    })
-    .finally(() => {
-      isProc.current = false;
-    });
+    await calendarEvent.update(); //予定更新のAPIを叩く
+    await calendar.update();      //予定更新後、カレンダーを更新
+    await modal.close();          //カレンダー更新後、モーダルを閉じる
+    calendarEvent.initState();    //モーダルが閉じ切った後、予定のstateを初期化
   };
 
   return (
@@ -45,11 +17,11 @@ export const EditEventModal = ({ modal, calendarEvent, updateCalendar }) => {
       modal={modal}
       icon={<PencilSquareIcon className='h-8 w-8' />}
       title='予定を編集'
-      closeOnClick={calendarEvent.init}
+      closeOnClick={calendarEvent.initState}
     >
       <CalendarEventForm
         calendarEvent={calendarEvent}
-        onSubmit={updateEvent}
+        onSubmit={updateCalendarEvent}
       >
         <button type='submit' className='button button-success !mt-10 ml-auto'>
           <ArrowPathIcon className='h-6 w-6' />

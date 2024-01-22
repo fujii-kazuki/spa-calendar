@@ -1,45 +1,27 @@
-import { useState, useEffect } from 'react'
+import { useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-
-import { signUp, getUser } from '/src/lib/api/auth'
-
+// カスタムフック
+import { useUser } from '/src/hooks/user'
+// コンポーネント
 import { Form } from '/src/components/forms/Form'
-
+// 画像
 import topImage from '/src/assets/images/top.svg'
 
 const SignUp = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const user = useUser();
   const navigate = useNavigate();
 
-  const register = async (event) => {
+  // ユーザーを登録
+  const registerUser = async (event) => {
     event.preventDefault();
-    await signUp({ email, password })
-      .then((res) => {
-        if (res?.status === 200) {
-          navigate('/calendar');
-        } else {
-          // エラーメッセージのアラートを表示
-          const errorMessages = res.data.errors.fullMessages;
-          alert(errorMessages.join('\n'));
-        }
-      })
-      .catch(() => {
-        alert('ユーザー登録に失敗しました。');
-      })
+    await user.register();  //ユーザー登録APIを叩く
+    navigate('/calendar');  //登録後、カレンダーページへ遷移
   };
 
-  // ログイン済み判定
   useEffect(() => {
     const f = async () => {
-      try {
-        const res = await getUser();
-        if (res?.data.isLogin) {
-          navigate('/calendar');
-        }
-      } catch (e) {
-        console.log(e);
-      }
+      // ログイン状態ならカレンダーページ遷移
+      if (await user.isLogin()) navigate('/calendar');
     };
     f();
   }, [navigate]);
@@ -54,13 +36,13 @@ const SignUp = () => {
       <div className='flex-1 max-w-[600px] space-y-8'>
         <h2 className='text-2xl'>ユーザー登録</h2>
 
-        <Form onSubmit={register}>
+        <Form onSubmit={registerUser}>
           <input type="email" name="email" placeholder='メールアドレス' autoFocus
-            onChange={(event) => setEmail(event.target.value)}
+            onChange={(event) => user.updateState({ email: event.target.value })}
           />
 
           <input type="password" name="password" placeholder='パスワード'
-            onChange={(event) => setPassword(event.target.value)}
+            onChange={(event) => user.updateState({ password: event.target.value })}
           />
 
           <button type="submit" className='button !mt-10 mx-auto'>

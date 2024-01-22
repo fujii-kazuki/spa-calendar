@@ -1,40 +1,18 @@
-import { useRef } from 'react'
-
-import {DocumentTextIcon, PencilSquareIcon, TrashIcon } from '@heroicons/react/24/outline'
-import { destroyCalendarEvent } from '/src/lib/api/calendarEvent'
-
 import { useModal } from '/src/hooks/modal'
-
 import { ModalWindow } from '/src/components/modals/ModalWindow'
 import { EditEventModal } from '/src/components/modals/EditEventModal'
+import { DocumentTextIcon, PencilSquareIcon, TrashIcon } from '@heroicons/react/24/outline'
 
-export const ShowEventModal = ({ modal, calendarEvent, updateCalendar }) => {
+export const ShowEventModal = ({ modal, calendar, calendarEvent }) => {
   const editEventModal = useModal();
 
-  const isProc = useRef(false); //送信処理の管理
-
-  const eventDestroy = async () => {
-    if (window.confirm('この予定を削除しますします。よろしいですか？')) {
-      if (isProc.current) return;
-      isProc.current = true;
-
-      await destroyCalendarEvent({
-        id: calendarEvent.id
-      })
-      .then(() => {
-        updateCalendar().then(() => {
-          modal.close();
-          calendarEvent.init();
-        });
-      })
-      .catch((err) => {
-        // エラーメッセージのアラートを表示
-        const errorMessages = err.response.data.errors;
-        alert(errorMessages.join('\n'));
-      })
-      .finally(() => {
-        isProc.current = false;
-      });
+  // 予定を削除
+  const destroyCalendarEvent = async () => {
+    if (window.confirm('この予定を削除します。よろしいですか？')) {
+      await calendarEvent.destroy();  //予定削除のAPIを叩く
+      await calendar.update();        //予定削除後、カレンダーを更新
+      await modal.close();            //カレンダー更新後、モーダルを閉じる
+      calendarEvent.initState();      //モーダルが閉じ切った後、予定のstateを初期化
     }
   };
 
@@ -45,7 +23,7 @@ export const ShowEventModal = ({ modal, calendarEvent, updateCalendar }) => {
         icon={<DocumentTextIcon className='h-8 w-8' />}
         title='予定の詳細'
         width='800px'
-        closeOnClick={calendarEvent.init}
+        closeOnClick={calendarEvent.initState}
       >
         <div className='font-ZenKurenaido space-y-6'>
           <div>
@@ -85,7 +63,7 @@ export const ShowEventModal = ({ modal, calendarEvent, updateCalendar }) => {
 
         <div className='flex justify-between !mt-10'>
           <button type='button' className='button button-danger button-rounded'
-            onClick={eventDestroy}
+            onClick={destroyCalendarEvent}
           >
             <TrashIcon className='h-6 w-6' />
           </button>
@@ -104,8 +82,8 @@ export const ShowEventModal = ({ modal, calendarEvent, updateCalendar }) => {
 
       <EditEventModal
         modal={editEventModal}
+        calendar={calendar}
         calendarEvent={calendarEvent}
-        updateCalendar={updateCalendar}
       />
     </>
   );

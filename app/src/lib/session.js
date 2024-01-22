@@ -20,15 +20,6 @@ const session = {
       Cookies.remove('_access_token');
       Cookies.remove('_client');
       Cookies.remove('_uid');
-    },
-
-    isExist: () => {
-      return (
-        Cookies.get('_access_token') &&
-        Cookies.get('_client') &&
-        Cookies.get('_uid') ?
-        true : false
-      );
     }
   }
 };

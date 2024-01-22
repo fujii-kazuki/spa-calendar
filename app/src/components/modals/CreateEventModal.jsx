@@ -26,7 +26,7 @@ export const CreateEventModal = ({ modal, calendarEvent, updateCalendar }) => {
     .then(() => {
       updateCalendar().then(() => {
         modal.close();
-        calendarEvent.init();
+        calendarEvent.initState();
       });
     })
     .catch((err) => {
@@ -44,7 +44,7 @@ export const CreateEventModal = ({ modal, calendarEvent, updateCalendar }) => {
       modal={modal}
       icon={<DocumentPlusIcon className='h-8 w-8' />}
       title='予定を追加'
-      closeOnClick={calendarEvent.init}
+      closeOnClick={calendarEvent.initState}
     >
       <CalendarEventForm
         calendarEvent={calendarEvent}

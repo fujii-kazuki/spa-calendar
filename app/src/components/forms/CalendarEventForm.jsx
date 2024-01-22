@@ -9,7 +9,7 @@ export const CalendarEventForm = ({ calendarEvent, onSubmit, children }) => {
       <label key={color} className='cursor-pointer group'>
         <input type="radio" name="color" value={color} className='hidden peer'
           checked={calendarEvent.color === color}
-          onChange={(event) => calendarEvent.set({ color: event.target.value })}
+          onChange={(event) => calendarEvent.updateState({ color: event.target.value })}
         />
         <div className={`h-6 w-6 group-hover:scale-125 peer-checked:ring-2 ring-offset-[3px] rounded-full transition-all ${bgClass} ${ringClass}`}></div>
       </label>
@@ -20,19 +20,19 @@ export const CalendarEventForm = ({ calendarEvent, onSubmit, children }) => {
     <Form onSubmit={onSubmit}>
       <input type='text' name='title' placeholder='タイトル' autoFocus
         value={calendarEvent.title}
-        onChange={(event) => calendarEvent.set({ title: event.target.value })}
+        onChange={(event) => calendarEvent.updateState({ title: event.target.value })}
       />
       
       <input type='text' name='description' placeholder='説明'
         value={calendarEvent.description}
-        onChange={(event) => calendarEvent.set({ description: event.target.value })}
+        onChange={(event) => calendarEvent.updateState({ description: event.target.value })}
       />
       
       <div>
         <label htmlFor='startDate' className='font-ZenKurenaido font-extrabold'>予定開始日付</label>
         <input type='date' name='description' id='startDate'
           value={calendarEvent.startDate}
-          onChange={(event) => calendarEvent.set({ startDate: event.target.value })}
+          onChange={(event) => calendarEvent.updateState({ startDate: event.target.value })}
         />
       </div>
       
@@ -40,7 +40,7 @@ export const CalendarEventForm = ({ calendarEvent, onSubmit, children }) => {
         <label htmlFor='endDate' className='font-ZenKurenaido font-extrabold'>予定終了日付</label>
         <input type='date' name='description' id='endDate'
           value={calendarEvent.endDate}
-          onChange={(event) => calendarEvent.set({ endDate: event.target.value })}
+          onChange={(event) => calendarEvent.updateState({ endDate: event.target.value })}
         />
       </div>
 

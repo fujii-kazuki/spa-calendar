@@ -27,7 +27,7 @@ export const EditEventModal = ({ modal, calendarEvent, updateCalendar }) => {
     .then(() => {
       updateCalendar().then(() => {
         modal.close();
-        calendarEvent.init();
+        calendarEvent.initState();
       });
     })
     .catch((err) => {
@@ -45,7 +45,7 @@ export const EditEventModal = ({ modal, calendarEvent, updateCalendar }) => {
       modal={modal}
       icon={<PencilSquareIcon className='h-8 w-8' />}
       title='予定を編集'
-      closeOnClick={calendarEvent.init}
+      closeOnClick={calendarEvent.initState}
     >
       <CalendarEventForm
         calendarEvent={calendarEvent}

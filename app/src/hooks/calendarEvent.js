@@ -10,8 +10,8 @@ export const useCalendarEvent = () => {
     color: 'blue'
   });
 
-  // 初期化
-  const init = () => {
+  // stateの初期化
+  const initState = () => {
     setTimeout(() => {
       setCalendarEvent({
         id: NaN,
@@ -25,13 +25,13 @@ export const useCalendarEvent = () => {
     );
   };
 
-  // セッター
-  const set = (obj) => {
+  // stateの更新
+  const updateState = (stateObj) => {
     setCalendarEvent({
       ...calendarEvent,
-      ...obj
+      ...stateObj
     });
   };
 
-  return { ...calendarEvent, init, set };
+  return { ...calendarEvent, initState, updateState };
 };

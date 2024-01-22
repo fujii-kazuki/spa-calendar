@@ -24,7 +24,7 @@ const Calendar = () => {
 
   // 予定を選択時の処理
   const eventClick = (info) => {
-    calendarEvent.set({
+    calendarEvent.updateState({
       id: info.event.id,
       title: info.event.title,
       description: info.event._def.extendedProps.description,

@@ -24,7 +24,7 @@ export const ShowEventModal = ({ modal, calendarEvent, updateCalendar }) => {
       .then(() => {
         updateCalendar().then(() => {
           modal.close();
-          calendarEvent.init();
+          calendarEvent.initState();
         });
       })
       .catch((err) => {
@@ -45,7 +45,7 @@ export const ShowEventModal = ({ modal, calendarEvent, updateCalendar }) => {
         icon={<DocumentTextIcon className='h-8 w-8' />}
         title='予定の詳細'
         width='800px'
-        closeOnClick={calendarEvent.init}
+        closeOnClick={calendarEvent.initState}
       >
         <div className='font-ZenKurenaido space-y-6'>
           <div>

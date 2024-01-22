@@ -2,19 +2,31 @@ import { Form } from './Form'
 
 export const CalendarEventForm = ({ calendarEvent, onSubmit, children }) => {
   const selectColors = ['blue', 'red', 'green', 'yellow'];
-  const colorRadios = selectColors.map((color) => {
-    const bgClass = `bg-${color}-400`;
-    const ringClass = `ring-${color}-400`;
-    return (
-      <label key={color} className='cursor-pointer group'>
-        <input type="radio" name="color" value={color} className='hidden peer'
-          checked={calendarEvent.color === color}
-          onChange={(event) => calendarEvent.updateState({ color: event.target.value })}
-        />
-        <div className={`h-6 w-6 group-hover:scale-125 peer-checked:ring-2 ring-offset-[3px] rounded-full transition-all ${bgClass} ${ringClass}`}></div>
-      </label>
-    );
-  });
+  
+  const colorVariants = {
+    'blue': {
+      bg: 'bg-blue-400', ring: 'ring-blue-400'
+    },
+    'red': {
+      bg: 'bg-red-400', ring: 'ring-red-400'
+    },
+    'green': {
+      bg: 'bg-green-400', ring: 'ring-green-400'
+    },
+    'yellow': {
+      bg: 'bg-yellow-400', ring: 'ring-yellow-400'
+    },
+  };
+  
+  const colorRadios = selectColors.map((color) => 
+    <label key={color} className='cursor-pointer group'>
+      <input type="radio" name="color" value={color} className='hidden peer'
+        checked={calendarEvent.color === color}
+        onChange={(event) => calendarEvent.updateState({ color: event.target.value })}
+      />
+      <div className={`h-6 w-6 group-hover:scale-125 peer-checked:ring-2 ring-offset-[3px] rounded-full transition-all ${colorVariants[color].bg} ${colorVariants[color].ring}`}></div>
+    </label>
+  );
 
   return (
     <Form onSubmit={onSubmit}>

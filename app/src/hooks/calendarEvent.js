@@ -20,17 +20,14 @@ export const useCalendarEvent = () => {
 
   // stateの初期化
   const initState = () => {
-    setTimeout(() => {
-      setCalendarEvent({
-        id: NaN,
-        title: '',
-        description: '',
-        startDate: '',
-        endDate: '',
-        color: 'blue'
-      })},
-      400
-    );
+    setCalendarEvent({
+      id: NaN,
+      title: '',
+      description: '',
+      startDate: '',
+      endDate: '',
+      color: 'blue'
+    });
   };
 
   // stateの更新
@@ -42,92 +39,89 @@ export const useCalendarEvent = () => {
   };
 
   // 作成
-  const create = async (callback) => {
-    // 非同期通信の処理中ならここで終了
-    if (isProcess.current) return;
+  const create = () => {
+    return new Promise((resolve) => {
+      // 非同期通信の処理中ならここで終了
+      if (isProcess.current) return;
 
-    // 非同期通信の処理中フラグを立てる
-    isProcess.current = true;
-    // 予定作成のAPIを叩く
-    await createCalendarEvent({
-      title: calendarEvent.title,
-      description: calendarEvent.description,
-      startDate: calendarEvent.startDate,
-      endDate: calendarEvent.endDate,
-      color: calendarEvent.color
-    })
-    .then(() => {
-      // コールバック関数を実行
-      if (typeof callback == 'function') callback();
-    })
-    .catch((err) => {
-      // エラーメッセージのアラートを表示
-      const errorMessages = err.response.data.errors;
-      alert(errorMessages.join('\n'));
-    })
-    .finally(() => {
-      // 非同期通信の処理中フラグを降ろす
-      isProcess.current = false;
+      // 非同期通信の処理中フラグを立てる
+      isProcess.current = true;
+      // 予定作成のAPIを叩く
+      createCalendarEvent({
+        title: calendarEvent.title,
+        description: calendarEvent.description,
+        startDate: calendarEvent.startDate,
+        endDate: calendarEvent.endDate,
+        color: calendarEvent.color
+      })
+      .then(resolve)
+      .catch((err) => {
+        // エラーメッセージのアラートを表示
+        const errorMessages = err.response.data.errors;
+        alert(errorMessages.join('\n'));
+      })
+      .finally(() => {
+        // 非同期通信の処理中フラグを降ろす
+        isProcess.current = false;
+      });
     });
   };
 
   // 更新
-  const update = async (callback) => {
-    // 非同期通信の処理中ならここで終了
-    if (isProcess.current) return;
+  const update = () => {
+    return new Promise((resolve) => {
+      // 非同期通信の処理中ならここで終了
+      if (isProcess.current) return;
 
-    // 非同期通信の処理中フラグを立てる
-    isProcess.current = true;
-    // 予定更新のAPIを叩く
-    await updateCalendarEvent({
-      id: calendarEvent.id,
-      title: calendarEvent.title,
-      description: calendarEvent.description,
-      startDate: calendarEvent.startDate,
-      endDate: calendarEvent.endDate,
-      color: calendarEvent.color
-    })
-    .then(() => {
-      // コールバック関数を実行
-      if (typeof callback == 'function') callback();
-    })
-    .catch((err) => {
-      // エラーメッセージのアラートを表示
-      const errorMessages = err.response.data.errors;
-      alert(errorMessages.join('\n'));
-    })
-    .finally(() => {
-      // 非同期通信の処理中フラグを降ろす
-      isProcess.current = false;
+      // 非同期通信の処理中フラグを立てる
+      isProcess.current = true;
+      // 予定更新のAPIを叩く
+      updateCalendarEvent({
+        id: calendarEvent.id,
+        title: calendarEvent.title,
+        description: calendarEvent.description,
+        startDate: calendarEvent.startDate,
+        endDate: calendarEvent.endDate,
+        color: calendarEvent.color
+      })
+      .then(resolve)
+      .catch((err) => {
+        // エラーメッセージのアラートを表示
+        const errorMessages = err.response.data.errors;
+        alert(errorMessages.join('\n'));
+      })
+      .finally(() => {
+        // 非同期通信の処理中フラグを降ろす
+        isProcess.current = false;
+      });
     });
   };
-
+  
   // 削除
-  const destroy = async (callback) => {
-    // 非同期通信の処理中ならここで終了
-    if (isProcess.current) return;
-
-    // 非同期通信の処理中フラグを立てる
-    isProcess.current = true;
-    // 予定削除のAPIを叩く
-    await destroyCalendarEvent({
-      id: calendarEvent.id
-    })
-    .then(() => {
-      // コールバック関数を実行
-      if (typeof callback == 'function') callback();
-    })
-    .catch((err) => {
-      // エラーメッセージのアラートを表示
-      const errorMessages = err.response.data.errors;
-      alert(errorMessages.join('\n'));
-    })
-    .finally(() => {
-      // 非同期通信の処理中フラグを降ろす
-      isProcess.current = false;
+  const destroy = () => {
+    return new Promise((resolve) => {
+      // 非同期通信の処理中ならここで終了
+      if (isProcess.current) return;
+    
+      // 非同期通信の処理中フラグを立てる
+      isProcess.current = true;
+      // 予定削除のAPIを叩く
+      destroyCalendarEvent({
+        id: calendarEvent.id
+      })
+      .then(resolve)
+      .catch((err) => {
+        // エラーメッセージのアラートを表示
+        const errorMessages = err.response.data.errors;
+        alert(errorMessages.join('\n'));
+      })
+      .finally(() => {
+        // 非同期通信の処理中フラグを降ろす
+        isProcess.current = false;
+      });
     });
   };
-
+  
   return {
     ...calendarEvent,
     initState,

@@ -4,16 +4,16 @@ import { DocumentPlusIcon, PlusCircleIcon } from '@heroicons/react/24/outline'
 
 export const CreateEventModal = ({ modal, calendar, calendarEvent }) => {
   // 予定を作成
-  const createCalendarEvent = (event) => {
+  const createCalendarEvent = async (event) => {
     event.preventDefault();
-    // 予定作成成功後の処理
-    const callback = () => {
-      calendar.update(() => {
-        modal.close();
-        calendarEvent.initState();
-      });
-    };
-    calendarEvent.create(callback);
+    try {
+      await calendarEvent.create(); //予定作成のAPIを叩く
+      await calendar.update();      //予定作成後、カレンダーを更新
+      await modal.close();          //カレンダー更新後、モーダルを閉じる
+      calendarEvent.initState();    //モーダルが閉じ切った後、予定のstateを初期化
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (

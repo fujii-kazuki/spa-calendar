@@ -5,6 +5,10 @@ export const useModal = () => {
     isOpen: false
   });
 
+  // モーダルを閉じる処理のタイムアウト時間(ミリ秒)
+  //// 閉じるアニメーションを最後まで再生する為
+  const closeTimeoutMS = 400;
+
   // 開く
   const open = () => {
     setModal({
@@ -19,7 +23,9 @@ export const useModal = () => {
       ...modal,
       isOpen: false
     });
+
+    return new Promise((resolve) => setTimeout(resolve, closeTimeoutMS));
   };
 
-  return { ...modal, open, close };
+  return { ...modal, closeTimeoutMS, open, close };
 };

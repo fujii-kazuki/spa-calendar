@@ -24,6 +24,7 @@ const Calendar = () => {
 
   // 予定を選択時の処理
   const eventClick = (info) => {
+    // 予定のstateを更新
     calendarEvent.updateState({
       id: info.event.id,
       title: info.event.title,
@@ -32,7 +33,6 @@ const Calendar = () => {
       endDate: dateFormat(info.event.end || info.event.start),
       color: info.event.classNames[0]
     });
-
     // 予定更新モーダルを開く
     showEventModal.open();
 

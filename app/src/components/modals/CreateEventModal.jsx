@@ -2,13 +2,13 @@ import { ModalWindow } from '/src/components/modals/ModalWindow'
 import { CalendarEventForm } from '/src/components/forms/CalendarEventForm'
 import { DocumentPlusIcon, PlusCircleIcon } from '@heroicons/react/24/outline'
 
-export const CreateEventModal = ({ modal, calendarEvent, updateCalendar }) => {
+export const CreateEventModal = ({ modal, calendar, calendarEvent }) => {
   // 予定を作成
   const createCalendarEvent = (event) => {
     event.preventDefault();
     // 予定作成成功後の処理
     const callback = () => {
-      updateCalendar().then(() => {
+      calendar.update(() => {
         modal.close();
         calendarEvent.initState();
       });

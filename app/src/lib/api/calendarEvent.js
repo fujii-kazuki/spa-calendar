@@ -1,7 +1,7 @@
 import client from './client'
 import session from '../session'
 
-// 予定一覧
+// 全ての予定を配列で取得
 export const getCalendarEvents = () => {
   if (!session.cookies.isExist()) return;
 

@@ -2,13 +2,13 @@ import { ModalWindow } from '/src/components/modals/ModalWindow'
 import { CalendarEventForm } from '/src/components/forms/CalendarEventForm'
 import { PencilSquareIcon, ArrowPathIcon } from '@heroicons/react/24/outline'
 
-export const EditEventModal = ({ modal, calendarEvent, updateCalendar }) => {
+export const EditEventModal = ({ modal, calendar, calendarEvent }) => {
   // 予定を更新
   const updateCalendarEvent = (event) => {
     event.preventDefault();
     // 予定更新成功後の処理
     const callback = () => {
-      updateCalendar().then(() => {
+      calendar.update(() => {
         modal.close();
         calendarEvent.initState();
       });

@@ -6,8 +6,8 @@ import dayGridPlugin from '@fullcalendar/daygrid'
 import { DocumentPlusIcon, ArrowLeftStartOnRectangleIcon, UserMinusIcon } from '@heroicons/react/24/outline'
 
 import { signOut, deleteRegister, getUser } from '/src/lib/api/auth'
-import { getCalendarEvents } from '/src/lib/api/calendarEvent'
 
+import { useCalendar } from '/src/hooks/calendar'
 import { useCalendarEvent } from '/src/hooks/calendarEvent'
 import { useModal } from '../hooks/modal'
 
@@ -15,8 +15,8 @@ import { CreateEventModal } from '/src/components/modals/CreateEventModal'
 import { ShowEventModal } from '/src/components/modals/ShowEventModal'
 
 const Calendar = () => {
+  const calendar = useCalendar();
   const calendarEvent = useCalendarEvent();
-  const [calendarEvents, setCalendarEvents] = useState([]);
   const createEventModal = useModal();
   const showEventModal = useModal();
 
@@ -38,34 +38,14 @@ const Calendar = () => {
 
     function dateFormat(date) {
       return new Date(date)
-        .toLocaleDateString("ja-JP", {
-          year: "numeric",
-          month: "2-digit",
-          day: "2-digit",
+        .toLocaleDateString('ja-JP', {
+          year: 'numeric',
+          month: '2-digit',
+          day: '2-digit',
         })
-        .split("/")
-        .join("-");
+        .split('/')
+        .join('-');
     }; 
-  };
-
-  // カレンダーを更新
-  const updateCalendar = async() => {
-    try {
-      const res = await getCalendarEvents();
-      const calendarEvents = res.data.map((calendarEvent) => {
-        return {
-          id: calendarEvent.id,
-          title: calendarEvent.title,
-          description: calendarEvent.description,
-          start: new Date(calendarEvent.startDate),
-          end: new Date(calendarEvent.endDate),
-          classNames: [calendarEvent.color]
-        };
-      });
-      setCalendarEvents(calendarEvents);
-    } catch (e) {
-      console.log(e);
-    }
   };
 
   // ログアウト機能
@@ -118,7 +98,7 @@ const Calendar = () => {
         if (!res?.data.isLogin) {
           navigate('/');
         }
-        await updateCalendar();
+        await calendar.update();
       } catch (e) {
         console.log(e);
       }
@@ -130,21 +110,21 @@ const Calendar = () => {
     <>
       <CreateEventModal
         modal={createEventModal}
+        calendar={calendar}
         calendarEvent={calendarEvent}
-        updateCalendar={updateCalendar}
       />
 
       <ShowEventModal
         modal={showEventModal}
+        calendar={calendar}
         calendarEvent={calendarEvent}
-        updateCalendar={updateCalendar}
       />
 
       <div className='container h-dvh flex flex-col gap-8 justify-center'>
         <FullCalendar
           plugins={[dayGridPlugin]}
           locale='ja'
-          events={calendarEvents}
+          events={calendar.events}
           headerToolbar={{
             left: 'today',
             center: 'title',

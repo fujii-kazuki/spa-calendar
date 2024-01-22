@@ -3,14 +3,15 @@ import { ModalWindow } from '/src/components/modals/ModalWindow'
 import { EditEventModal } from '/src/components/modals/EditEventModal'
 import { DocumentTextIcon, PencilSquareIcon, TrashIcon } from '@heroicons/react/24/outline'
 
-export const ShowEventModal = ({ modal, calendarEvent, updateCalendar }) => {
+export const ShowEventModal = ({ modal, calendar, calendarEvent }) => {
   const editEventModal = useModal();
 
+  // 予定を削除
   const destroyCalendarEvent = () => {
     if (window.confirm('この予定を削除します。よろしいですか？')) {
       // 予定削除成功後の処理
       const callback = () => {
-        updateCalendar().then(() => {
+        calendar.update(() => {
           modal.close();
           calendarEvent.initState();
         });
@@ -85,8 +86,8 @@ export const ShowEventModal = ({ modal, calendarEvent, updateCalendar }) => {
 
       <EditEventModal
         modal={editEventModal}
+        calendar={calendar}
         calendarEvent={calendarEvent}
-        updateCalendar={updateCalendar}
       />
     </>
   );

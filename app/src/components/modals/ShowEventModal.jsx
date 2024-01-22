@@ -1,40 +1,21 @@
-import { useRef } from 'react'
-
-import {DocumentTextIcon, PencilSquareIcon, TrashIcon } from '@heroicons/react/24/outline'
-import { destroyCalendarEvent } from '/src/lib/api/calendarEvent'
-
 import { useModal } from '/src/hooks/modal'
-
 import { ModalWindow } from '/src/components/modals/ModalWindow'
 import { EditEventModal } from '/src/components/modals/EditEventModal'
+import { DocumentTextIcon, PencilSquareIcon, TrashIcon } from '@heroicons/react/24/outline'
 
 export const ShowEventModal = ({ modal, calendarEvent, updateCalendar }) => {
   const editEventModal = useModal();
 
-  const isProc = useRef(false); //送信処理の管理
-
-  const eventDestroy = async () => {
-    if (window.confirm('この予定を削除しますします。よろしいですか？')) {
-      if (isProc.current) return;
-      isProc.current = true;
-
-      await destroyCalendarEvent({
-        id: calendarEvent.id
-      })
-      .then(() => {
+  const destroyCalendarEvent = () => {
+    if (window.confirm('この予定を削除します。よろしいですか？')) {
+      // 予定削除成功後の処理
+      const callback = () => {
         updateCalendar().then(() => {
           modal.close();
           calendarEvent.initState();
         });
-      })
-      .catch((err) => {
-        // エラーメッセージのアラートを表示
-        const errorMessages = err.response.data.errors;
-        alert(errorMessages.join('\n'));
-      })
-      .finally(() => {
-        isProc.current = false;
-      });
+      };
+      calendarEvent.destroy(callback);
     }
   };
 
@@ -85,7 +66,7 @@ export const ShowEventModal = ({ modal, calendarEvent, updateCalendar }) => {
 
         <div className='flex justify-between !mt-10'>
           <button type='button' className='button button-danger button-rounded'
-            onClick={eventDestroy}
+            onClick={destroyCalendarEvent}
           >
             <TrashIcon className='h-6 w-6' />
           </button>

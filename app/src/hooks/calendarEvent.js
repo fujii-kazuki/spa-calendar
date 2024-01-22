@@ -1,4 +1,5 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
+import { createCalendarEvent } from '/src/lib/api/calendarEvent'
 
 export const useCalendarEvent = () => {
   const [calendarEvent, setCalendarEvent] = useState({
@@ -9,6 +10,9 @@ export const useCalendarEvent = () => {
     endDate: '',
     color: 'blue'
   });
+
+  // 非同期通信の処理中フラグ
+  const isProcess = useRef(false);
 
   // stateの初期化
   const initState = () => {
@@ -33,5 +37,35 @@ export const useCalendarEvent = () => {
     });
   };
 
-  return { ...calendarEvent, initState, updateState };
+  // 作成
+  const create = async (callback) => {
+    // 非同期通信の処理中ならここで終了
+    if (isProcess.current) return;
+
+    // 非同期通信の処理中フラグを立てる
+    isProcess.current = true;
+    // 予定作成のAPIを叩く
+    await createCalendarEvent({
+      title: calendarEvent.title,
+      description: calendarEvent.description,
+      startDate: calendarEvent.startDate,
+      endDate: calendarEvent.endDate,
+      color: calendarEvent.color
+    })
+    .then(() => {
+      // コールバック関数を実行
+      if(typeof callback == 'function') callback();
+    })
+    .catch((err) => {
+      // エラーメッセージのアラートを表示
+      const errorMessages = err.response.data.errors;
+      alert(errorMessages.join('\n'));
+    })
+    .finally(() => {
+      // 非同期通信の処理中フラグを降ろす
+      isProcess.current = false;
+    });
+  };
+
+  return { ...calendarEvent, initState, updateState, create };
 };
